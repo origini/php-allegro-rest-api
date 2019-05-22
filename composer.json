@@ -1,5 +1,5 @@
 {
-    "name": "shacky/allegro-rest-api",
+    "name": "shacky/php-allegro-rest-api",
     "description": "simple interface for Allegro REST API",
     "license": "MIT",
     "authors": [

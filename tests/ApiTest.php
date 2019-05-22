@@ -24,25 +24,20 @@ class ApiTest extends TestCase
     /**
      * @dataProvider credentialsProvider
      */
-    function testAuthorization($clientId, $clientSecret, $apiKey,
-                               $redirectUri, $accessToken, $refreshToken)
+    function testAuthorization($clientId, $clientSecret, $redirectUri, $accessToken, $refreshToken)
     {
-        $api = new Allegro\REST\Api($clientId, $clientSecret, $apiKey,
+        $api = new Allegro\REST\Api($clientId, $clientSecret,
                                     $redirectUri, $accessToken, $refreshToken);
 
         $expected = 'https://ssl.allegro.pl/auth/oauth/authorize' .
                     "?response_type=code&client_id=$clientId" .
-                    "&api-key=$apiKey&redirect_uri=$redirectUri";
+                    "&redirect_uri=$redirectUri";
 
         $this->assertEquals($expected, $api->getAuthorizationUri());
 
         $this->assertEquals($accessToken, $api->getAccessToken());
         $this->assertEquals($accessToken, $api->categories->getAccessToken());
         $this->assertEquals($accessToken, $api->categories(123)->getAccessToken());
-
-        $this->assertEquals($apiKey, $api->getApiKey());
-        $this->assertEquals($apiKey, $api->categories->getApiKey());
-        $this->assertEquals($apiKey, $api->categories(123)->getApiKey());
     }
 
     function credentialsProvider()

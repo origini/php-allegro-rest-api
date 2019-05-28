@@ -6,6 +6,8 @@ class Api extends Resource
 
     const API_URI = 'https://api.allegro.pl';
 
+    const UPLOAD_URI = 'https://upload.allegro.pl';
+
     const TOKEN_URI = 'https://allegro.pl/auth/oauth/token';
 
     const AUTHORIZATION_URI = 'https://allegro.pl/auth/oauth/authorize';
@@ -34,6 +36,11 @@ class Api extends Resource
     public function getUri()
     {
         return static::API_URI;
+    }
+
+    public function getUploadUri()
+    {
+        return static::UPLOAD_URI;
     }
 
     /**

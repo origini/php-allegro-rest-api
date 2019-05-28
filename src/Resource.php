@@ -32,6 +32,14 @@ class Resource
     }
 
     /**
+     * @return string
+     */
+    public function getUploadUri()
+    {
+        return $this->parent->getUploadUri() . '/' . $this->id;
+    }
+
+    /**
      * @return Commands
      */
     public function commands()
@@ -71,6 +79,15 @@ class Resource
     public function post($data)
     {
         return $this->sendApiRequest($this->getUri(), 'POST', $data);
+    }
+
+    /**
+     * @param array $data
+     * @return bool|string
+     */
+    public function upload($data)
+    {
+        return $this->sendApiRequest($this->getUploadUri(), 'POST', $data);
     }
 
     /**

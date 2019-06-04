@@ -49,9 +49,11 @@ class Resource
 
     /**
      * @param null|array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    public function get($data = null)
+    public function get($data = null, $version = 1, $beta = false)
     {
         $uri = $this->getUri();
 
@@ -60,41 +62,49 @@ class Resource
             $uri .= http_build_query($data);
         }
 
-        return $this->sendApiRequest($uri, 'GET');
+        return $this->sendApiRequest($uri, 'GET', array(), $version, $beta);
     }
 
     /**
      * @param array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    public function put($data)
+    public function put($data, $version = 1, $beta = false)
     {
-        return $this->sendApiRequest($this->getUri(), 'PUT', $data);
+        return $this->sendApiRequest($this->getUri(), 'PUT', $data, $version, $beta);
     }
 
     /**
      * @param array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    public function post($data)
+    public function post($data, $version = 1, $beta = false)
     {
-        return $this->sendApiRequest($this->getUri(), 'POST', $data);
+        return $this->sendApiRequest($this->getUri(), 'POST', $data, $version, $beta);
     }
 
     /**
      * @param array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    public function upload($data)
+    public function upload($data, $version = 1, $beta = false)
     {
-        return $this->sendApiRequest($this->getUploadUri(), 'POST', $data);
+        return $this->sendApiRequest($this->getUploadUri(), 'POST', $data, $version, $beta);
     }
 
     /**
      * @param null|array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    public function delete($data = null)
+    public function delete($data = null, $version = 1, $beta = false)
     {
         $uri = $this->getUri();
 
@@ -103,7 +113,7 @@ class Resource
             $uri .= http_build_query($data);
         }
 
-        return $this->sendApiRequest($uri, 'DELETE');
+        return $this->sendApiRequest($uri, 'DELETE', array(), $version, $beta);
     }
 
     public function __get($name)
@@ -122,16 +132,18 @@ class Resource
      * @param string $url
      * @param string $method
      * @param array $data
+     * @param int $version
+     * @param bool $beta
      * @return bool|string
      */
-    protected function sendApiRequest($url, $method, $data = array())
+    protected function sendApiRequest($url, $method, $data = array(), $version = 1, $beta = false)
     {
         $token = $this->getAccessToken();
 
         $headers = array(
             "Authorization: Bearer $token",
-            "Content-Type: application/vnd.allegro.public.v1+json",
-            "Accept: application/vnd.allegro.public.v1+json"
+            "Content-Type: application/vnd.allegro.".($beta?'beta':'public').".v".$version."+json",
+            "Accept: application/vnd.allegro.".($beta?'beta':'public').".v".$version."+json"
         );
 
         $data = json_encode($data);

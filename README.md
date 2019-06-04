@@ -50,4 +50,7 @@ $api->offers(12345)->commands()->change_price($data);
 
 // POST https://upload.allegro.pl/sale/images
 $api->sale->images->upload($data);
+
+// GET https://api.allegro.pl/sale/products beta v1 method
+$api->sale->products->get($data,1,true);
 ```

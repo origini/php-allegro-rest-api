@@ -50,6 +50,12 @@ class Api extends Resource
     {
         return $this->accessToken;
     }
+    
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+        return $this;
+    }
 
     /**
      * @return string
@@ -62,7 +68,7 @@ class Api extends Resource
             'redirect_uri' => $this->redirectUri
         );
 
-        return static::AUTHORIZATION_URI . '?' . http_build_query($data);
+        return static::AUTHORIZATION_URI . '?' . $this->httpBuildQuery($data);
     }
 
     /**
@@ -107,7 +113,7 @@ class Api extends Resource
             "Content-Type: application/x-www-form-urlencoded"
         );
 
-        $data = http_build_query($data);
+        $data = $this->httpBuildQuery($data);
 
         $response = $this->sendHttpRequest(static::TOKEN_URI, 'POST', $headers, $data);
 
